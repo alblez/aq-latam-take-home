@@ -46,10 +46,10 @@
 
 ## 8. Quality gate
 
-- [ ] 8.1 `pnpm typecheck` (tsc strict) green
-- [ ] 8.2 `pnpm lint` (Biome) green
-- [ ] 8.3 `pnpm knip` green
-- [ ] 8.4 `pnpm test` (Vitest) green
-- [ ] 8.5 `just frontend-contract-types-check` green (no drift from the contract)
-- [ ] 8.6 Forbidden-words scan clean (only false positives)
-- [ ] 8.7 `openspec validate --all` and `just bootstrap-check` pass
+- [x] 8.1 `pnpm typecheck` (tsc strict) green
+- [x] 8.2 `pnpm lint` (Biome) green
+- [x] 8.3 `pnpm knip` green
+- [x] 8.4 `pnpm test` (Vitest) green
+- [x] 8.5 `just frontend-contract-types-check` green (no drift from the contract)
+- [x] 8.6 Forbidden-words scan clean (only false positives)
+- [x] 8.7 `openspec validate --all` and `just bootstrap-check` pass
