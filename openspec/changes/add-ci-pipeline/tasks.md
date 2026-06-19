@@ -1,0 +1,18 @@
+## 1. Create the CI workflow
+
+- [ ] 1.1 Create `.github/workflows/ci.yml` with 5 jobs (frontend-quality, contract-check, backend-quality, backend-db, preflight aggregate)
+- [ ] 1.2 Adjust for this project: branch `master` (not `main`), DB name `ai_interviewer_test`, no `pytest -m db` step (0 DB-marked tests)
+- [ ] 1.3 Sanitize: no forbidden words, no reference project names
+
+## 2. Verify CI passes on GitHub Actions
+
+- [ ] 2.1 Commit and push to `github` remote
+- [ ] 2.2 Wait for the GitHub Actions run to complete
+- [ ] 2.3 Confirm all 5 jobs pass (or document any failures and fixes)
+
+## 3. Sync and archive
+
+- [ ] 3.1 Sync delta specs into `openspec/specs/`
+- [ ] 3.2 Archive the change to `openspec/changes/archive/`
+- [ ] 3.3 Commit, push to both remotes (origin + github)
+- [ ] 3.4 Verify `openspec validate --all` and `just bootstrap-check` pass
