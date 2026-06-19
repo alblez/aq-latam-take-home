@@ -37,9 +37,9 @@
 
 ## 5. API contract and drift check
 
-- [ ] 5.1 Commit `shared/contract.yaml` (OpenAPI 3.1.0) covering all endpoints and schemas
-- [ ] 5.2 Add drift check (`backend/scripts/check_contract.py`) that asserts runtime OpenAPI matches the committed contract
-- [ ] 5.3 Verify `just contract-check` (redocly lint) and `just backend-contract-drift` are green
+- [x] 5.1 Commit `shared/contract.yaml` (OpenAPI 3.1.0) covering all endpoints and schemas
+- [x] 5.2 Add drift check (`backend/scripts/check_contract.py`) that asserts runtime OpenAPI matches the committed contract
+- [x] 5.3 Verify `just contract-check` (redocly lint) and `just backend-contract-drift` are green
 
 ## 6. Test suite
 

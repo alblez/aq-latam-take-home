@@ -1,0 +1,969 @@
+openapi: 3.1.0
+info:
+  title: AI Interviewer Platform API
+  version: 0.1.0
+  license:
+    name: Unlicensed
+    url: https://unlicense.org/
+  description: |
+    Contract between the Next.js frontend and FastAPI backend. The current
+    frontend uses the `/api` prefix for application endpoints. Backend health
+    remains unprefixed for Railway and external uptime probes.
+security: []
+servers:
+  - url: /
+    description: Environment-specific API origin
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Check backend health
+      responses:
+        "200":
+          description: Backend is reachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+        "400":
+          description: Bad request
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/jobs:
+    get:
+      operationId: listJobs
+      summary: List seeded jobs
+      responses:
+        "200":
+          description: Job list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [jobs]
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Job"
+        "400":
+          description: Bad request
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions:
+    post:
+      operationId: createSession
+      summary: Create an interview session for a job
+      parameters:
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSessionRequest"
+      responses:
+        "201":
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Job not found
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Request validation error
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/start:
+    post:
+      operationId: startSession
+      summary: Start an interview and get the first question
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      responses:
+        "200":
+          description: First question and panel state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StartSessionResponse"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "409":
+          description: Session not startable
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid UUID path parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/turn:
+    post:
+      operationId: submitTurn
+      summary: Submit a candidate answer and receive the next question or terminal state
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitAnswerRequest"
+      responses:
+        "200":
+          description: Next interview turn or completed interview state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitAnswerResponse"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "409":
+          description: Session lifecycle conflict or duplicate turn
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Request validation error
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/state:
+    get:
+      operationId: getSessionState
+      summary: Resume or inspect a persisted session
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      responses:
+        "200":
+          description: Persisted session state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionStateResponse"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid UUID path parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/end-early:
+    post:
+      operationId: endSessionEarly
+      summary: End an interview before all competencies are covered
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      responses:
+        "200":
+          description: Terminal panel state and uncovered competencies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndSessionEarlyResponse"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "409":
+          description: Session not in progress
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid UUID path parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/evaluation:
+    get:
+      operationId: getEvaluation
+      summary: Get transcript and structured evaluation
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      responses:
+        "200":
+          description: Session detail with evaluation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionDetail"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "409":
+          description: Session still in progress
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid UUID path parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/sessions/{sessionId}/replay:
+    get:
+      operationId: getReplay
+      summary: Get replay data for a completed session
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/OwnerIdHeader"
+      responses:
+        "200":
+          description: Replay detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionDetail"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "404":
+          description: Session not found
+          $ref: "#/components/responses/ErrorResponse"
+        "409":
+          description: Session still in progress
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid UUID path parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /api/history:
+    get:
+      operationId: getHistory
+      summary: List owner-scoped interview history
+      parameters:
+        - $ref: "#/components/parameters/OwnerIdHeader"
+        - name: jobId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Session summaries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HistoryResponse"
+        "400":
+          description: Invalid owner ID header
+          $ref: "#/components/responses/ErrorResponse"
+        "422":
+          description: Invalid optional jobId query parameter
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+components:
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    OwnerIdHeader:
+      name: X-Owner-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    ErrorResponse:
+      description: Standard error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          example: ok
+    Job:
+      type: object
+      required: [id, title, description, competencyCount]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        competencyCount:
+          type: integer
+          minimum: 0
+    JobDetail:
+      allOf:
+        - $ref: "#/components/schemas/Job"
+    Session:
+      type: object
+      required: [id, jobId, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        jobId:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/SessionStatus"
+        completionReason:
+          anyOf:
+            - $ref: "#/components/schemas/CompletionReason"
+            - type: "null"
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: [string, "null"]
+          format: date-time
+    SessionStatus:
+      type: string
+      enum: [in_progress, completed, ended_early]
+    CompletionReason:
+      type: string
+      enum: [all_competencies_covered, question_cap, ended_early]
+    CompetencyCategory:
+      type: string
+      enum: [behavioral, technical]
+    CompetencyStatus:
+      type: object
+      required: [id, name, category, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        category:
+          $ref: "#/components/schemas/CompetencyCategory"
+        status:
+          type: string
+          enum: [not-reached, in-progress, covered]
+    CompetencyRef:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    Flag:
+      type: object
+      required: [flag, detail]
+      properties:
+        flag:
+          type: string
+          enum:
+            - vague_claim
+            - no_evidence
+            - interesting_thread
+            - contradiction
+            - well_covered
+            - tradeoff_mentioned
+            - metric_mentioned
+            - specific_tool_mentioned
+        detail:
+          type: string
+        competencyId:
+          type: [string, "null"]
+          format: uuid
+        triggerTurnId:
+          type: [string, "null"]
+          format: uuid
+        answerExcerpt:
+          type: [string, "null"]
+    RubricCompetencySnapshot:
+      type: object
+      required: [id, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [covered, in-progress, not-reached]
+        category:
+          $ref: "#/components/schemas/CompetencyCategory"
+        evidenceTurnIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        followUpCount:
+          type: integer
+          minimum: 0
+        signalSummary:
+          type: [string, "null"]
+    RubricSnapshot:
+      type: object
+      required: [covered, inProgress, gaps]
+      properties:
+        covered:
+          type: array
+          items:
+            type: string
+            format: uuid
+        inProgress:
+          type: array
+          items:
+            type: string
+            format: uuid
+        gaps:
+          type: array
+          items:
+            type: string
+            format: uuid
+        competencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/RubricCompetencySnapshot"
+    PolicyState:
+      type: object
+      required: [questionCount, followUpCount, minQuestions, minFollowUps, maxQuestions, maxFollowUpsPerCompetency, eligibleToEnd]
+      properties:
+        questionCount:
+          type: integer
+          minimum: 0
+        followUpCount:
+          type: integer
+          minimum: 0
+        minQuestions:
+          type: integer
+          example: 6
+        minFollowUps:
+          type: integer
+          example: 2
+        maxQuestions:
+          type: integer
+          example: 12
+        maxFollowUpsPerCompetency:
+          type: integer
+          example: 2
+        followUpCountsByCompetency:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+        eligibleToEnd:
+          type: boolean
+    Trigger:
+      type: object
+      required: [turnId, answerExcerpt, reason]
+      properties:
+        turnId:
+          type: string
+          format: uuid
+        answerExcerpt:
+          type: string
+        reason:
+          type: string
+    Generation:
+      type: object
+      required: [mode, answerDependencyRequired]
+      properties:
+        mode:
+          type: string
+          enum: [pack_seed, targeted_follow_up, generic_probe, terminal]
+        fallbackMode:
+          type: [string, "null"]
+        answerDependencyRequired:
+          type: boolean
+    PolicyAction:
+      type: string
+      enum: [new_topic, follow_up, end]
+    PanelState:
+      type: object
+      required: [rubricSnapshot, flags, policyState, action, targetCompetencyId, sourcePackItemId, trigger, rationale, generation, failureMode]
+      properties:
+        rubricSnapshot:
+          $ref: "#/components/schemas/RubricSnapshot"
+        flags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Flag"
+        policyState:
+          $ref: "#/components/schemas/PolicyState"
+        action:
+          $ref: "#/components/schemas/PolicyAction"
+        targetCompetencyId:
+          type: [string, "null"]
+          format: uuid
+        sourcePackItemId:
+          type: [string, "null"]
+          format: uuid
+        trigger:
+          anyOf:
+            - $ref: "#/components/schemas/Trigger"
+            - type: "null"
+        rationale:
+          type: string
+        generation:
+          $ref: "#/components/schemas/Generation"
+        failureMode:
+          type: [string, "null"]
+    TerminalPanelState:
+      allOf:
+        - $ref: "#/components/schemas/PanelState"
+        - type: object
+          required: [completionReason, endedBy, uncoveredCompetencyIds]
+          properties:
+            completionReason:
+              $ref: "#/components/schemas/CompletionReason"
+            endedBy:
+              type: string
+              enum: [controller, user]
+            uncoveredCompetencyIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+    Turn:
+      type: object
+      required: [id, role, turnIndex, competencyId, content]
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientTurnId:
+          type: [string, "null"]
+          format: uuid
+        role:
+          type: string
+          enum: [interviewer, candidate]
+        turnIndex:
+          type: integer
+        competencyId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        inputMode:
+          anyOf:
+            - type: string
+              enum: [voice, text]
+            - type: "null"
+        audioDurationMs:
+          type: [integer, "null"]
+          minimum: 0
+        action:
+          anyOf:
+            - $ref: "#/components/schemas/PolicyAction"
+            - type: "null"
+        sourcePackItemId:
+          type: [string, "null"]
+          format: uuid
+        reasoning:
+          description: API-assembled panel state for replay/detail responses. The database stores `turns.reasoning` JSONB plus authoritative relational columns (`action`, `competency_id`, `source_pack_item_id`).
+          anyOf:
+            - $ref: "#/components/schemas/PanelState"
+            - type: "null"
+    CreateSessionRequest:
+      type: object
+      required: [jobId]
+      properties:
+        jobId:
+          type: string
+          format: uuid
+    StartSessionResponse:
+      type: object
+      required: [question, turnIndex, panelState, competencies, turns, jobTitle]
+      properties:
+        question:
+          type: string
+        turnIndex:
+          type: integer
+        panelState:
+          $ref: "#/components/schemas/PanelState"
+        competencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyStatus"
+        turns:
+          type: array
+          items:
+            $ref: "#/components/schemas/Turn"
+        jobTitle:
+          type: string
+    SubmitAnswerRequest:
+      type: object
+      required: [clientTurnId, answerText, inputMode]
+      properties:
+        clientTurnId:
+          type: string
+          format: uuid
+        answerText:
+          type: string
+          maxLength: 10000
+        inputMode:
+          type: string
+          enum: [voice, text]
+        audioDurationMs:
+          type: [integer, "null"]
+          minimum: 0
+    SubmitAnswerResponse:
+      type: object
+      required: [question, turnIndex, panelState, competencies, turns, jobTitle, isComplete, terminalPanelState, evaluationReady]
+      properties:
+        question:
+          type: [string, "null"]
+        turnIndex:
+          type: integer
+        panelState:
+          $ref: "#/components/schemas/PanelState"
+        competencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyStatus"
+        turns:
+          type: array
+          items:
+            $ref: "#/components/schemas/Turn"
+        jobTitle:
+          type: string
+        isComplete:
+          type: boolean
+        terminalPanelState:
+          anyOf:
+            - $ref: "#/components/schemas/TerminalPanelState"
+            - type: "null"
+        evaluationReady:
+          type: boolean
+    SessionStateResponse:
+      type: object
+      required: [session, turns, panelState, competencies, jobTitle, currentQuestion, turnIndex, status, needsRecovery, terminalPanelState]
+      properties:
+        session:
+          $ref: "#/components/schemas/Session"
+        turns:
+          type: array
+          items:
+            $ref: "#/components/schemas/Turn"
+        panelState:
+          $ref: "#/components/schemas/PanelState"
+        competencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyStatus"
+        jobTitle:
+          type: string
+        currentQuestion:
+          type: [string, "null"]
+        turnIndex:
+          type: integer
+        status:
+          $ref: "#/components/schemas/SessionStatus"
+        needsRecovery:
+          type: boolean
+          description: True when the latest persisted turn is a candidate answer with no following interviewer turn.
+        terminalPanelState:
+          anyOf:
+            - $ref: "#/components/schemas/TerminalPanelState"
+            - type: "null"
+    EndSessionEarlyResponse:
+      type: object
+      required: [uncoveredCompetencies, terminalPanelState, evaluationReady]
+      properties:
+        uncoveredCompetencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyRef"
+        terminalPanelState:
+          $ref: "#/components/schemas/TerminalPanelState"
+        evaluationReady:
+          type: boolean
+    ScoreScale:
+      type: object
+      required: [min, max]
+      properties:
+        min:
+          type: integer
+          example: 1
+        max:
+          type: integer
+          example: 10
+    CompetencyEvidence:
+      type: object
+      description: Validated evidence JSONB payload from session_competency_scores.evidence.
+      required: [schemaVersion, evaluationVersion, coverage, supportingTurnIds, quotes, signals, scoreRationale, unassessedReason]
+      properties:
+        schemaVersion:
+          type: string
+          example: competency_evidence.v1
+        evaluationVersion:
+          type: string
+          example: v1
+        coverage:
+          type: object
+          required: [probed, assessed, firstQuestionTurnId, questionTurnIds, answerTurnIds]
+          properties:
+            probed:
+              type: boolean
+            assessed:
+              type: boolean
+            firstQuestionTurnId:
+              type: [string, "null"]
+              format: uuid
+            questionTurnIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+            answerTurnIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+        supportingTurnIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        quotes:
+          type: array
+          items:
+            type: object
+            required: [turnId, quote, type, note]
+            properties:
+              turnId:
+                type: string
+                format: uuid
+              quote:
+                type: string
+              type:
+                type: string
+                enum: [strength, concern, neutral]
+              note:
+                type: string
+        signals:
+          type: array
+          items:
+            type: object
+            required: [turnId, flag, detail]
+            properties:
+              turnId:
+                type: string
+                format: uuid
+              flag:
+                type: string
+              detail:
+                type: string
+        scoreRationale:
+          type: [string, "null"]
+        unassessedReason:
+          type: [string, "null"]
+    CompetencyScore:
+      type: object
+      required: [competencyId, name, category, assessed, score, notes, evidence]
+      properties:
+        competencyId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        category:
+          $ref: "#/components/schemas/CompetencyCategory"
+        assessed:
+          type: boolean
+        score:
+          type: [integer, "null"]
+          minimum: 1
+          maximum: 10
+        notes:
+          type: [string, "null"]
+        evidence:
+          anyOf:
+            - $ref: "#/components/schemas/CompetencyEvidence"
+            - type: "null"
+    EvaluationNarrative:
+      type: object
+      description: Public evaluation narrative. Score scale is exposed on Evaluation.scoreScale; internal model provenance is not exposed directly.
+      required: [summary, overallVerdict, strengths, concerns, unassessedCompetencyIds, earlyEndNote, modelFailureNote]
+      properties:
+        summary:
+          type: string
+        overallVerdict:
+          type: string
+          enum: [strong, mixed, needs_improvement, insufficient_signal]
+        strengths:
+          type: array
+          items:
+            type: object
+            required: [competencyId, text, turnIds]
+            properties:
+              competencyId:
+                type: string
+                format: uuid
+              text:
+                type: string
+              turnIds:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+        concerns:
+          type: array
+          items:
+            type: object
+            required: [competencyId, text, turnIds]
+            properties:
+              competencyId:
+                type: string
+                format: uuid
+              text:
+                type: string
+              turnIds:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+        unassessedCompetencyIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        earlyEndNote:
+          type: [string, "null"]
+        modelFailureNote:
+          type: [string, "null"]
+    Evaluation:
+      type: object
+      required: [overallScore, scoreScale, competencyScores, narrative]
+      properties:
+        overallScore:
+          type: [number, "null"]
+        scoreScale:
+          $ref: "#/components/schemas/ScoreScale"
+        competencyScores:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyScore"
+        narrative:
+          $ref: "#/components/schemas/EvaluationNarrative"
+    SessionDetail:
+      type: object
+      required: [session, job, competencies, turns, evaluation, terminalPanelState]
+      properties:
+        session:
+          $ref: "#/components/schemas/Session"
+        job:
+          $ref: "#/components/schemas/JobDetail"
+        competencies:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompetencyStatus"
+        turns:
+          type: array
+          items:
+            $ref: "#/components/schemas/Turn"
+        evaluation:
+          anyOf:
+            - $ref: "#/components/schemas/Evaluation"
+            - type: "null"
+        terminalPanelState:
+          anyOf:
+            - $ref: "#/components/schemas/TerminalPanelState"
+            - type: "null"
+    SessionSummary:
+      type: object
+      required: [id, jobId, jobTitle, status, startedAt, completedAt, durationMs, overallScore, coveragePercent, talkRatio, questionCount, followUpCount]
+      properties:
+        id:
+          type: string
+          format: uuid
+        jobId:
+          type: string
+          format: uuid
+        jobTitle:
+          type: string
+        status:
+          $ref: "#/components/schemas/SessionStatus"
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: [string, "null"]
+          format: date-time
+        durationMs:
+          type: [integer, "null"]
+        overallScore:
+          type: [number, "null"]
+        coveragePercent:
+          type: [number, "null"]
+        talkRatio:
+          type: [number, "null"]
+        questionCount:
+          type: integer
+          minimum: 0
+        followUpCount:
+          type: integer
+          minimum: 0
+    HistoryResponse:
+      type: object
+      required: [sessions]
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SessionSummary"
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum:
+                - invalid_owner_id
+                - job_not_found
+                - session_not_found
+                - session_not_in_progress
+                - session_in_progress
+                - turn_already_submitted
+                - validation_error
+                - model_unavailable
+                - catalog_setup_error
+            message:
+              type: string
+            details:
+              type: object
+              additionalProperties: true
+            requestId:
+              type: [string, "null"]
