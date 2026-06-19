@@ -15,8 +15,8 @@ The backend is implemented first. It runs the interview — a deterministic engi
 
 ## Decisions
 
-### Contract emitted from the running app
-- FastAPI generates the OpenAPI document from the Pydantic models and route signatures; the backend **exports** it to `shared/contract.yaml`. A check asserts the runtime OpenAPI matches the committed file, so the contract never drifts from the code. Stabilizing names and optionality for the frontend is handled by the `define-api-contract` change that consumes this file.
+### Committed contract with drift check
+- The API contract (`shared/contract.yaml`, OpenAPI 3.1.0) is committed to the repository and covers all endpoints and schemas. A drift check (`scripts/check_contract.py`) asserts the FastAPI runtime OpenAPI matches the committed contract, so code and contract never diverge. Stabilizing names and optionality for the frontend is handled by the `define-api-contract` change that consumes this file.
 
 ### Persistence model (minimal)
 - `jobs` — id, title, description.

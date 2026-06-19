@@ -7,7 +7,7 @@ The backend produces the first working API: it serves roles, drives an adaptive 
 - A FastAPI skeleton with settings/env loading, structured logging, a `/health` endpoint, project metadata (`ai-interviewer-backend`), and backend tooling.
 - A persistence model with migrations and idempotent seed for jobs, role question packs, sessions, turns, evaluations, and decision-panel snapshots.
 - A thin vertical slice — `GET /api/jobs`, `POST /api/sessions`, `POST /api/sessions/{id}/start`, `POST /api/sessions/{id}/turn`, `GET /api/sessions/{id}/evaluation`, with `X-Owner-Id` scoping.
-- An initial `shared/contract.yaml` produced from the FastAPI runtime OpenAPI, plus a backend check that the runtime OpenAPI matches the committed contract.
+- A committed `shared/contract.yaml` (OpenAPI 3.1.0) covering all endpoints and schemas, plus a backend drift check that the runtime OpenAPI matches the committed contract.
 - The full interview engine (deterministic depth policy, role-grounded generation), the decision panel, structured evaluation, and owner-scoped history with analytics.
 
 ## Capabilities

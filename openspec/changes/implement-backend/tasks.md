@@ -1,52 +1,60 @@
-## 1. Skeleton + persistence (data layer first)
+## 1. Project scaffold and persistence
 
-- [ ] 1.1 FastAPI app skeleton with settings/env loading and structured logging; project metadata `ai-interviewer-backend`; backend tooling (ruff, pyright, pytest)
-- [ ] 1.2 `GET /health` endpoint
-- [ ] 1.3 Define the minimal schema — jobs, competencies, question-pack items, sessions, turns, evaluations + competency scores, and decision-panel snapshots — in `backend/docs/schema.sql`
-- [ ] 1.4 Implement the SQLAlchemy models in `backend/app/models.py`
-- [ ] 1.5 Create the Alembic migration `backend/alembic/versions/0001_initial_schema.py` matching the schema
-- [ ] 1.6 Author idempotent seed data (at least 3 roles, each with behavioral + technical question packs) in `backend/seed_data.sql` and a `backend/scripts/seed.py` runner
-- [ ] 1.7 Verify `alembic upgrade head` then seed run clean against local PostgreSQL (`just backend-db-setup`)
+- [ ] 1.1 Backend project metadata and tooling: `pyproject.toml` (uv-managed, `ai-interviewer-backend`), ruff, pyright, pytest, coverage, deptry config
+- [ ] 1.2 FastAPI app skeleton: settings/env loading (`app/config.py`), SQLAlchemy engine (`app/db.py`), dependencies (`app/deps.py`), structured logging (`app/logging.py`), error envelope (`app/errors.py`), owner parsing (`app/owners.py`), app factory + middleware + exception handlers (`app/main.py`)
+- [ ] 1.3 `GET /health` endpoint (`app/routes/health.py`)
+- [ ] 1.4 Database schema DDL in `backend/docs/schema.sql` (jobs, competencies, question_pack_items, sessions, turns, evaluations, session_competency_scores + enums + indexes)
+- [ ] 1.5 SQLAlchemy models in `backend/app/models.py` matching the schema
+- [ ] 1.6 Alembic migration `backend/alembic/versions/0001_initial_schema.py` + companion SQL, `alembic.ini`, `alembic/env.py`
+- [ ] 1.7 Idempotent seed data (`backend/seed_data.sql`) and runner (`backend/scripts/seed.py`)
+- [ ] 1.8 Verify `just backend-db-setup` (alembic upgrade head + seed) runs clean
 
-## 2. Thin vertical slice (one role, end to end)
+## 2. API schemas and data access
 
-- [ ] 2.1 `GET /api/jobs` returns the seeded roles
-- [ ] 2.2 `POST /api/sessions` + `POST /api/sessions/{id}/start`: create a session and return the first pack-seeded question with panel state
-- [ ] 2.3 `POST /api/sessions/{id}/turn`: persist the answer and return the next question
-- [ ] 2.4 `GET /api/sessions/{id}/evaluation`: a minimal structured evaluation for a completed session
-- [ ] 2.5 Enforce `X-Owner-Id` scoping on all `/api` routes
+- [ ] 2.1 Pydantic API request/response schemas (`app/schemas.py`)
+- [ ] 2.2 Strict Pydantic models for JSONB columns (`app/jsonb_schemas.py`): TurnReasoning, TerminalPanelState, EvaluationNarrative, CompetencyEvidence, ControllerConfig
+- [ ] 2.3 Database repositories and query helpers (`app/repositories.py`): CRUD, owner guards, row locks
+- [ ] 2.4 Session lifecycle helpers: turn flow orchestration (`app/turn_flow.py`), panel state builders (`app/panel_state.py`), evaluation detail assembly (`app/evaluation_detail.py`), history detail assembly (`app/history_detail.py`)
 
-## 3. Emit the API contract
+## 3. Deterministic interview engine
 
-- [ ] 3.1 Export `shared/contract.yaml` from the FastAPI runtime OpenAPI
-- [ ] 3.2 Add a backend check that the runtime OpenAPI matches the committed `shared/contract.yaml`
-- [ ] 3.3 Backend quality gate green: ruff, pyright, unit tests, and ASGI integration tests
+- [ ] 3.1 Engine package scaffold and OpenRouter gateway (`app/engine/gateway.py`): ModelGateway protocol, OpenRouterGateway, retry logic
+- [ ] 3.2 Prompt builders (`app/engine/prompts.py`): analyze, generate, evaluation, repair prompts
+- [ ] 3.3 Answer analysis and signal extraction (`app/engine/analyze.py`)
+- [ ] 3.4 Deterministic depth policy (`app/engine/policy.py`): pure function, min 6 questions, min 2 follow-ups, caps, eligibleToEnd, follow-up guard
+- [ ] 3.5 Question generation with tiered fallback (`app/engine/generate.py`): pack_seed, targeted_follow_up, generic_probe
+- [ ] 3.6 Structured evaluation (`app/engine/evaluation.py`): schema, parsing, competency alignment, deterministic scoring
+- [ ] 3.7 Pipeline orchestrator (`app/engine/orchestrator.py`): analyze → policy → generate → persist; evaluation runner; end-early terminal builder
+- [ ] 3.8 Rationale templates and failure-mode vocabulary (`app/engine/rationales.py`)
 
-## 4. Deterministic interview engine
+## 4. API routes
 
-- [ ] 4.1 Policy: enforce min 6 questions, min 2 answer-dependent follow-ups, the caps, and `eligibleToEnd`
-- [ ] 4.2 Generation modes: `pack_seed`, `targeted_follow_up` (depends on prior answer), `generic_probe` fallback
-- [ ] 4.3 `end-early` and resume/recovery (`needsRecovery`)
+- [ ] 4.1 `GET /api/jobs` (`app/routes/jobs.py`)
+- [ ] 4.2 Session routes (`app/routes/sessions.py`): create, get state, start, turn, end-early, evaluation, replay
+- [ ] 4.3 `GET /api/history` with optional `jobId` filter (`app/routes/history.py`)
+- [ ] 4.4 Wire all routes into `app/main.py` with `X-Owner-Id` scoping on all `/api` endpoints
+- [ ] 4.5 Verify `just backend-quality` (ruff, pyright, pytest not db, deptry, app/openapi smoke) is green
 
-## 5. Decision panel (stretch 1)
+## 5. API contract and drift check
 
-- [ ] 5.1 Per-turn rubric snapshot (covered / in-progress / gaps)
-- [ ] 5.2 Signal flags derived from answers
-- [ ] 5.3 Rationale + trigger for the chosen next question; persist the snapshot on the turn
+- [ ] 5.1 Commit `shared/contract.yaml` (OpenAPI 3.1.0) covering all endpoints and schemas
+- [ ] 5.2 Add drift check (`backend/scripts/check_contract.py`) that asserts runtime OpenAPI matches the committed contract
+- [ ] 5.3 Verify `just contract-check` (redocly lint) and `just backend-contract-drift` are green
 
-## 6. Structured evaluation
+## 6. Test suite
 
-- [ ] 6.1 Overall score + per-competency scores with evidence (quotes, supporting turns)
-- [ ] 6.2 Narrative verdict + strengths + concerns grounded in turn ids
-- [ ] 6.3 Graceful degradation: `insufficient_signal` / `model_unavailable`, never fabricate
+- [ ] 6.1 Unit tests: policy, generate, analyze, evaluation, owners, errors, health
+- [ ] 6.2 ASGI integration tests: jobs, session lifecycle, turn flow, end-early, evaluation, replay, history
+- [ ] 6.3 DB-gated tests (Testcontainers): seed validation, migration, repositories
+- [ ] 6.4 Contract drift test
+- [ ] 6.5 Verify `just backend-test` (not db) and `just backend-test-db` are green
 
-## 7. History + analytics (stretch 4)
+## 7. Final quality gate
 
-- [ ] 7.1 `GET /api/history` (owner-scoped) with duration, talk ratio, coverage, score, and counts
-- [ ] 7.2 Optional `jobId` filter
-- [ ] 7.3 `GET /api/sessions/{id}/replay` detail
-
-## 8. Quality
-
-- [ ] 8.1 Unit + ASGI integration tests; `ruff` and `pyright` clean
-- [ ] 8.2 Runtime OpenAPI drift check against `shared/contract.yaml` green
+- [ ] 7.1 `just backend-quality` green (ruff, pyright, pytest not db, deptry, smoke)
+- [ ] 7.2 `just contract-check` and `just backend-contract-drift` green
+- [ ] 7.3 `just backend-db-lint` and `just backend-db-smoke` green (sqlfluff, alembic)
+- [ ] 7.4 `just backend-coverage` meets threshold
+- [ ] 7.5 Forbidden-words scan clean (only false positives)
+- [ ] 7.6 `openspec validate --all` passes
+- [ ] 7.7 `just bootstrap-check` passes
