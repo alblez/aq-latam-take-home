@@ -12,8 +12,8 @@
 
 ## 3. Document contract invariants
 
-- [ ] 3.1 Document the `X-Owner-Id` owner-scoping rule and the structured error envelope with stable `error.code` values
-- [ ] 3.2 Document the contract change/versioning rule (edits go through a new OpenSpec change; backend drift check keeps runtime aligned)
+- [x] 3.1 Document the `X-Owner-Id` owner-scoping rule and the structured error envelope with stable `error.code` values
+- [x] 3.2 Document the contract change/versioning rule (edits go through a new OpenSpec change; backend drift check keeps runtime aligned)
 
 ## 4. Verify drift checks
 
