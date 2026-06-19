@@ -17,7 +17,7 @@
 
 ## 4. Verify drift checks
 
-- [ ] 4.1 Confirm `just backend-contract-drift` passes (runtime OpenAPI == committed contract)
-- [ ] 4.2 Confirm `just frontend-contract-types-check` passes (generated types == committed types)
-- [ ] 4.3 Confirm `just contract-check` passes (redocly lint)
-- [ ] 4.4 Confirm `just bootstrap-check` and `openspec validate --all` pass
+- [x] 4.1 Confirm `just backend-contract-drift` passes (runtime OpenAPI == committed contract)
+- [x] 4.2 Confirm `just frontend-contract-types-check` passes (generated types == committed types)
+- [x] 4.3 Confirm `just contract-check` passes (redocly lint)
+- [x] 4.4 Confirm `just bootstrap-check` and `openspec validate --all` pass
