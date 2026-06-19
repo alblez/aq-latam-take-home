@@ -36,9 +36,9 @@
 
 ## 6. Tests
 
-- [ ] 6.1 Test fixtures (`test/fixtures.ts`)
-- [ ] 6.2 All test files (hooks, lib, components, app — including `lib/contract-smoke.test.ts` already present)
-- [ ] 6.3 Verify `pnpm test` (Vitest) passes
+- [x] 6.1 Test fixtures (`test/fixtures.ts`)
+- [x] 6.2 All test files (hooks, lib, components, app — including `lib/contract-smoke.test.ts` already present)
+- [x] 6.3 Verify `pnpm test` (Vitest) passes
 
 ## 7. Frontend architecture docs
 
