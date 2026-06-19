@@ -8,10 +8,10 @@
 
 ## 2. Types and API layer
 
-- [ ] 2.1 Type alias files (`types/competency.ts`, `types/evaluation.ts`, `types/job.ts`, `types/session.ts`, `types/turn.ts`)
-- [ ] 2.2 API client and endpoints (`lib/api/client.ts`, `lib/api/jobs.ts`, `lib/api/sessions.ts`, `lib/api/evaluation.ts`, `lib/api/history.ts`)
-- [ ] 2.3 Owner ID and session utilities (`lib/owner-id.ts`, `lib/format-date.ts`, `lib/pending-turn.ts`, `hooks/use-owner-id.ts`)
-- [ ] 2.4 Results helpers (`lib/results/evidence.ts`, `lib/results/limitations.ts`, `lib/results/verdict.ts`)
+- [x] 2.1 Type alias files (`types/competency.ts`, `types/evaluation.ts`, `types/job.ts`, `types/session.ts`, `types/turn.ts`)
+- [x] 2.2 API client and endpoints (`lib/api/client.ts`, `lib/api/jobs.ts`, `lib/api/sessions.ts`, `lib/api/evaluation.ts`, `lib/api/history.ts`)
+- [x] 2.3 Owner ID and session utilities (`lib/owner-id.ts`, `lib/format-date.ts`, `lib/pending-turn.ts`, `hooks/use-owner-id.ts`)
+- [x] 2.4 Results helpers (`lib/results/evidence.ts`, `lib/results/limitations.ts`, `lib/results/verdict.ts`)
 
 ## 3. Interview hooks
 
