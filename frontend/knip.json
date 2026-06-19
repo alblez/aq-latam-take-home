@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "ignoreDependencies": ["shadcn", "postcss-load-config", "tw-animate-css", "tailwindcss"],
+  "ignore": ["types/api/contract.ts"],
+  "ignoreExportsUsedInFile": true,
+  "entry": ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "hooks/**/*.ts", "lib/**/*.ts"],
+  "project": ["**/*.{ts,tsx}"],
+  "rules": {
+    "files": "error",
+    "dependencies": "error",
+    "unlisted": "error",
+    "unresolved": "error",
+    "exports": "warn",
+    "types": "warn",
+    "duplicates": "warn",
+    "enumMembers": "off",
+    "namespaceMembers": "off"
+  }
+}

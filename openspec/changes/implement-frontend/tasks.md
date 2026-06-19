@@ -1,10 +1,10 @@
 ## 1. App scaffold and design system
 
-- [ ] 1.1 Next.js config files (`next.config.js`, `postcss.config.mjs`, `components.json`, `knip.json`, `.nvmrc`)
-- [ ] 1.2 Global styles and fonts (`app/globals.css`, `app/fonts/`)
-- [ ] 1.3 Root layout (`app/layout.tsx`)
-- [ ] 1.4 shadcn UI primitives (`components/ui/` — badge, button, card, dialog, scroll-area, select, separator, sheet, skeleton, tabs, textarea, tooltip)
-- [ ] 1.5 Utility helper (`lib/utils.ts`)
+- [x] 1.1 Next.js config files (`next.config.js`, `postcss.config.mjs`, `components.json`, `knip.json`, `.nvmrc`)
+- [x] 1.2 Global styles and fonts (`app/globals.css`, `app/fonts/`)
+- [x] 1.3 Root layout (`app/layout.tsx`)
+- [x] 1.4 shadcn UI primitives (`components/ui/` — badge, button, card, dialog, scroll-area, select, separator, sheet, skeleton, tabs, textarea, tooltip)
+- [x] 1.5 Utility helper (`lib/utils.ts`)
 
 ## 2. Types and API layer
 
