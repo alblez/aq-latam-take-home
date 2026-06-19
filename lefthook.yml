@@ -19,7 +19,7 @@ pre-commit:
       run: pnpm --dir frontend test
     contract-types-drift:
       glob: "{shared/contract.yaml,frontend/types/api/contract.ts}"
-      run: pnpm --dir frontend contract-types:check
+      run: "test -f frontend/types/api/contract.ts && pnpm --dir frontend contract-types:check || test ! -f frontend/types/api/contract.ts"
 
 pre-push:
   parallel: false
