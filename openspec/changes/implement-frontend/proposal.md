@@ -27,4 +27,4 @@ Candidates need a clean, voice-first interface: browse roles, run an adaptive in
 ## Impact
 
 - Adds `frontend/` (Next.js 16 / React 19 / TypeScript). Consumes the generated contract types; `contract-types:check` guards drift.
-- Depends on `define-api-contract` (consumes the generated contract types). Mock mode supports local development without a running backend; hosted environments use the deployed backend, not mocks.
+- Depends on `define-api-contract` (consumes the generated contract types). The frontend requires a live backend (`NEXT_PUBLIC_API_URL`); hosted environments use the deployed backend.

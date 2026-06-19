@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Browse sample jobs
-The application SHALL present a list of at least three sample jobs, each showing a title and a short description. The list MUST be fetched from `/api/jobs` (or its mock equivalent during local development).
+The application SHALL present a list of at least three sample jobs, each showing a title and a short description. The list MUST be fetched from `/api/jobs`.
 
 #### Scenario: Job list is shown on the landing page
 - **WHEN** a user opens the app

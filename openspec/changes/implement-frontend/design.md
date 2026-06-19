@@ -7,7 +7,7 @@ The frontend is a Next.js app built against the `api-contract`. It must run a vo
 **Goals:**
 - A typed client generated from the contract so the UI never drifts from the API.
 - A voice-first flow that still works where speech recognition is unavailable.
-- Local development without a running backend via a mock data layer.
+- A live backend configured via `NEXT_PUBLIC_API_URL`; the app fails fast if it is missing.
 
 **Non-Goals:**
 - Video mode (stretch 3), deferred. Authentication. A design system beyond the component primitives needed for a clean UI.
