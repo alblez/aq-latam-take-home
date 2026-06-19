@@ -33,8 +33,8 @@ requirements. See [AGENTS.md](AGENTS.md) for how the project is built.
 
 The work runs as an ordered sequence of OpenSpec changes:
 
-```text
-implement-backend     builds the API and exports shared/contract.yaml from FastAPI's runtime OpenAPI
+```
+implement-backend     builds the API and commits shared/contract.yaml with a drift check
         │
         ▼
 define-api-contract   stabilizes that contract, generates frontend types, wires drift checks
@@ -72,15 +72,14 @@ As each track lands, the full gates and app commands become runnable:
 
 ```sh
 pnpm install            # frontend deps
-just frontend-dev       # Next.js dev server (mock mode needs no backend)
+just frontend-dev       # Next.js dev server (needs a running backend)
 just backend-dev        # FastAPI (needs PostgreSQL + OPENROUTER_* in backend/.env)
 just backend-db-setup   # migrate + idempotent seed
 ```
 
 Each app owns its own env example: copy [`frontend/.env.example`](frontend/.env.example)
 to `frontend/.env.local` and [`backend/.env.example`](backend/.env.example) to
-`backend/.env`. Mock mode (`NEXT_PUBLIC_USE_MOCK=true`) is a local development aid; hosted
-environments set it to `false` and use the deployed backend.
+`backend/.env`. The frontend requires a live backend (`NEXT_PUBLIC_API_URL`).
 
 ## Commands
 
