@@ -44,6 +44,7 @@ backend/.coverage
 # misc
 .DS_Store
 *.pem
+frontend/.impeccable
 
 # editors
 .vscode/
