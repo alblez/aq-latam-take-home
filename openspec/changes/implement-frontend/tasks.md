@@ -30,9 +30,9 @@
 
 ## 5. App routes
 
-- [ ] 5.1 Root routes (`app/page.tsx`, `app/loading.tsx`, `app/not-found.tsx`, `app/error.tsx`)
-- [ ] 5.2 Interview routes (`app/interview/[sessionId]/page.tsx`, `app/interview/[sessionId]/error.tsx`, `app/interview/[sessionId]/result/page.tsx`)
-- [ ] 5.3 History routes (`app/history/page.tsx`, `app/history/[sessionId]/page.tsx`, `app/history/[sessionId]/replay-loader.ts`, `app/history/[sessionId]/replay-page-state.ts`, `app/history/[sessionId]/_components/`)
+- [x] 5.1 Root routes (`app/page.tsx`, `app/loading.tsx`, `app/not-found.tsx`, `app/error.tsx`)
+- [x] 5.2 Interview routes (`app/interview/[sessionId]/page.tsx`, `app/interview/[sessionId]/error.tsx`, `app/interview/[sessionId]/result/page.tsx`)
+- [x] 5.3 History routes (`app/history/page.tsx`, `app/history/[sessionId]/page.tsx`, `app/history/[sessionId]/replay-loader.ts`, `app/history/[sessionId]/replay-page-state.ts`, `app/history/[sessionId]/_components/`)
 
 ## 6. Tests
 
