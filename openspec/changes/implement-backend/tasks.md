@@ -29,11 +29,11 @@
 
 ## 4. API routes
 
-- [ ] 4.1 `GET /api/jobs` (`app/routes/jobs.py`)
-- [ ] 4.2 Session routes (`app/routes/sessions.py`): create, get state, start, turn, end-early, evaluation, replay
-- [ ] 4.3 `GET /api/history` with optional `jobId` filter (`app/routes/history.py`)
-- [ ] 4.4 Wire all routes into `app/main.py` with `X-Owner-Id` scoping on all `/api` endpoints
-- [ ] 4.5 Verify `just backend-quality` (ruff, pyright, pytest not db, deptry, app/openapi smoke) is green
+- [x] 4.1 `GET /api/jobs` (`app/routes/jobs.py`)
+- [x] 4.2 Session routes (`app/routes/sessions.py`): create, get state, start, turn, end-early, evaluation, replay
+- [x] 4.3 `GET /api/history` with optional `jobId` filter (`app/routes/history.py`)
+- [x] 4.4 Wire all routes into `app/main.py` with `X-Owner-Id` scoping on all `/api` endpoints
+- [x] 4.5 Verify `just backend-quality` (ruff, pyright, pytest not db, deptry, app/openapi smoke) is green
 
 ## 5. API contract and drift check
 
