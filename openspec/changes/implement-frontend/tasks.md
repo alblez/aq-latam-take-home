@@ -15,10 +15,10 @@
 
 ## 3. Interview hooks
 
-- [ ] 3.1 Interview state machine (`hooks/use-interview-machine.ts`)
-- [ ] 3.2 Answer input controller (`hooks/use-answer-input-controller.ts`)
-- [ ] 3.3 Speech recognition STT (`hooks/use-speech-recognition.ts`)
-- [ ] 3.4 Speech synthesis TTS (`hooks/use-speech-synthesis.ts`)
+- [x] 3.1 Interview state machine (`hooks/use-interview-machine.ts`)
+- [x] 3.2 Answer input controller (`hooks/use-answer-input-controller.ts`)
+- [x] 3.3 Speech recognition STT (`hooks/use-speech-recognition.ts`)
+- [x] 3.4 Speech synthesis TTS (`hooks/use-speech-synthesis.ts`)
 
 ## 4. Components
 
