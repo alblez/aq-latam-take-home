@@ -42,7 +42,7 @@
 
 ## 7. Frontend architecture docs
 
-- [ ] 7.1 Frontend ADRs (`frontend/docs/adr/` — ADR-001 through ADR-008)
+- [x] 7.1 Frontend ADRs (`frontend/docs/adr/` — ADR-001 through ADR-008)
 
 ## 8. Quality gate
 
