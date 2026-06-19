@@ -36,13 +36,13 @@ The room SHALL offer an explicit control to end the interview before all compete
 - **WHEN** a candidate chooses to end early
 - **THEN** the interview is finalized and the review screen is shown
 
-### Requirement: Mock mode for local development
-The application SHALL support a mock mode (`NEXT_PUBLIC_USE_MOCK=true`) that runs the full interview flow against an in-app mock data layer, so the UI can be developed and demoed locally while backend work is in progress. Mock mode is a development aid only: hosted and production environments MUST set `NEXT_PUBLIC_USE_MOCK=false` and use the deployed backend.
+### Requirement: Real backend mode
+The application SHALL require a live backend (`NEXT_PUBLIC_API_URL`) for all API calls. There is no mock mode — the frontend always talks to the deployed backend. The `NEXT_PUBLIC_API_URL` environment variable MUST be set or the application fails fast at startup.
 
-#### Scenario: Full flow works locally without a backend
-- **WHEN** a developer runs the app with mock mode enabled and no backend configured
-- **THEN** they can browse jobs, complete an interview, and view an evaluation
+#### Scenario: App requires a configured backend
+- **WHEN** the application starts without `NEXT_PUBLIC_API_URL`
+- **THEN** the application fails fast with a clear configuration error
 
-#### Scenario: Hosted environments use the real backend
+#### Scenario: Hosted environments use the deployed backend
 - **WHEN** the app is deployed to a hosted environment
-- **THEN** `NEXT_PUBLIC_USE_MOCK` is `false` and requests go to the deployed backend
+- **THEN** requests go to the deployed backend configured via `NEXT_PUBLIC_API_URL`

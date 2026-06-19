@@ -9,7 +9,7 @@ Candidates need a clean, voice-first interface: browse roles, run an adaptive in
 - A live decision panel that shows the interviewer's rubric, signals, and rationale (stretch goal 1).
 - An end-of-interview review with the full transcript and structured evaluation; a history page with role filtering, per-session analytics, and replay (stretch goal 4).
 - A typed API client driven by the generated contract types, with an auto-generated `X-Owner-Id`.
-- Mock mode as a **local development aid** while backend work is in progress; hosted environments run against the deployed backend with `NEXT_PUBLIC_USE_MOCK=false`.
+- The frontend requires a live backend (`NEXT_PUBLIC_API_URL`); hosted environments run against the deployed backend.
 
 ## Capabilities
 

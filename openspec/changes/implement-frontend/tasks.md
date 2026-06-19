@@ -1,30 +1,55 @@
-## 1. App shell + typed client
+## 1. App scaffold and design system
 
-- [ ] 1.1 Next.js app scaffold (App Router), Tailwind, base layout
-- [ ] 1.2 Typed API client from the generated contract types; auto-attach `X-Owner-Id`
-- [ ] 1.3 Mock data layer toggled by `NEXT_PUBLIC_USE_MOCK` (local development aid)
+- [ ] 1.1 Next.js config files (`next.config.js`, `postcss.config.mjs`, `components.json`, `knip.json`, `.nvmrc`)
+- [ ] 1.2 Global styles and fonts (`app/globals.css`, `app/fonts/`)
+- [ ] 1.3 Root layout (`app/layout.tsx`)
+- [ ] 1.4 shadcn UI primitives (`components/ui/` — badge, button, card, dialog, scroll-area, select, separator, sheet, skeleton, tabs, textarea, tooltip)
+- [ ] 1.5 Utility helper (`lib/utils.ts`)
 
-## 2. Thin vertical slice (one role, end to end)
+## 2. Types and API layer
 
-- [ ] 2.1 Job list page (at least 3 roles)
-- [ ] 2.2 Interview Room: show the question, submit a text answer, advance a turn
-- [ ] 2.3 Review screen: transcript + structured evaluation
+- [ ] 2.1 Type alias files (`types/competency.ts`, `types/evaluation.ts`, `types/job.ts`, `types/session.ts`, `types/turn.ts`)
+- [ ] 2.2 API client and endpoints (`lib/api/client.ts`, `lib/api/jobs.ts`, `lib/api/sessions.ts`, `lib/api/evaluation.ts`, `lib/api/history.ts`)
+- [ ] 2.3 Owner ID and session utilities (`lib/owner-id.ts`, `lib/format-date.ts`, `lib/pending-turn.ts`, `hooks/use-owner-id.ts`)
+- [ ] 2.4 Results helpers (`lib/results/evidence.ts`, `lib/results/limitations.ts`, `lib/results/verdict.ts`)
 
-## 3. Voice input
+## 3. Interview hooks
 
-- [ ] 3.1 Microphone capture + Web Speech transcription; record `inputMode = voice`
-- [ ] 3.2 Text fallback when speech recognition is unavailable
+- [ ] 3.1 Interview state machine (`hooks/use-interview-machine.ts`)
+- [ ] 3.2 Answer input controller (`hooks/use-answer-input-controller.ts`)
+- [ ] 3.3 Speech recognition STT (`hooks/use-speech-recognition.ts`)
+- [ ] 3.4 Speech synthesis TTS (`hooks/use-speech-synthesis.ts`)
 
-## 4. Decision panel (stretch 1)
+## 4. Components
 
-- [ ] 4.1 Render the live rubric, signals, and rationale each turn
+- [ ] 4.1 Shared components (`components/shared/empty-state.tsx`, `components/shared/error-state.tsx`, `components/retry-button.tsx`)
+- [ ] 4.2 Job selection components (`components/job-card.tsx`, `components/job-list-states.tsx`)
+- [ ] 4.3 Interview room components (`components/interview/` — interview-room, decision-panel, answer-area, competency-chips, done-button, early-end-dialog, interview-header, question-display, speaking-orb, thinking-indicator, welcome-screen)
+- [ ] 4.4 Results components (`components/results/` — competency-score-card, evaluation-limitations, narrative-section, score-bar, transcript-turn)
+- [ ] 4.5 History components (`components/history/` — empty-history, role-filter, score-trend-chart, session-card, turn-navigator)
 
-## 5. History + replay (stretch 4)
+## 5. App routes
 
-- [ ] 5.1 History page with per-session metrics and a role filter
-- [ ] 5.2 Replay a completed session with its decision panel state
+- [ ] 5.1 Root routes (`app/page.tsx`, `app/loading.tsx`, `app/not-found.tsx`, `app/error.tsx`)
+- [ ] 5.2 Interview routes (`app/interview/[sessionId]/page.tsx`, `app/interview/[sessionId]/error.tsx`, `app/interview/[sessionId]/result/page.tsx`)
+- [ ] 5.3 History routes (`app/history/page.tsx`, `app/history/[sessionId]/page.tsx`, `app/history/[sessionId]/replay-loader.ts`, `app/history/[sessionId]/replay-page-state.ts`, `app/history/[sessionId]/_components/`)
 
-## 6. Quality
+## 6. Tests
 
-- [ ] 6.1 Strict `tsc` + Biome + knip + Vitest green
-- [ ] 6.2 `contract-types:check` green (no drift from the contract)
+- [ ] 6.1 Test fixtures (`test/fixtures.ts`)
+- [ ] 6.2 All test files (hooks, lib, components, app — including `lib/contract-smoke.test.ts` already present)
+- [ ] 6.3 Verify `pnpm test` (Vitest) passes
+
+## 7. Frontend architecture docs
+
+- [ ] 7.1 Frontend ADRs (`frontend/docs/adr/` — ADR-001 through ADR-008)
+
+## 8. Quality gate
+
+- [ ] 8.1 `pnpm typecheck` (tsc strict) green
+- [ ] 8.2 `pnpm lint` (Biome) green
+- [ ] 8.3 `pnpm knip` green
+- [ ] 8.4 `pnpm test` (Vitest) green
+- [ ] 8.5 `just frontend-contract-types-check` green (no drift from the contract)
+- [ ] 8.6 Forbidden-words scan clean (only false positives)
+- [ ] 8.7 `openspec validate --all` and `just bootstrap-check` pass
