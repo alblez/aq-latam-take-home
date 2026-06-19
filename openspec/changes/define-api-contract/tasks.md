@@ -6,9 +6,9 @@
 
 ## 2. Generate and commit frontend contract types
 
-- [ ] 2.1 Generate `frontend/types/api/contract.ts` via `openapi-typescript` from `shared/contract.yaml`
-- [ ] 2.2 Add `frontend/scripts/check-contract-types.mjs` drift gate (regenerate to temp, diff against committed)
-- [ ] 2.3 Verify `just frontend-contract-types-check` passes (committed types match contract)
+- [x] 2.1 Generate `frontend/types/api/contract.ts` via `openapi-typescript` from `shared/contract.yaml`
+- [x] 2.2 Add `frontend/scripts/check-contract-types.mjs` drift gate (regenerate to temp, diff against committed)
+- [x] 2.3 Verify `just frontend-contract-types-check` passes (committed types match contract)
 
 ## 3. Document contract invariants
 
