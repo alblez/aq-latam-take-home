@@ -7,6 +7,7 @@ name = "ai-interviewer-backend"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "alembic" },
     { name = "asgi-correlation-id" },
     { name = "fastapi" },
     { name = "httpx2" },
@@ -20,7 +21,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "alembic" },
     { name = "deepdiff" },
     { name = "deptry" },
     { name = "factory-boy" },
@@ -44,6 +44,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "alembic", specifier = ">=1.17.2" },
     { name = "asgi-correlation-id", specifier = ">=5.0.1" },
     { name = "fastapi", specifier = "==0.137.1" },
     { name = "httpx2", specifier = ">=2.4,<3" },
@@ -57,7 +58,6 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "alembic", specifier = ">=1.17.2" },
     { name = "deepdiff", specifier = ">=8.6.1" },
     { name = "deptry", specifier = ">=0.24.0" },
     { name = "factory-boy", specifier = ">=3.3.3" },

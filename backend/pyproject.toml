@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "FastAPI backend for the AI Interviewer Platform"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+  "alembic>=1.17.2",
   "asgi-correlation-id>=5.0.1",
   "fastapi==0.137.1",
   "httpx2>=2.4,<3",
@@ -17,7 +18,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "alembic>=1.17.2",
   "deepdiff>=8.6.1",
   "deptry>=0.24.0",
   "factory-boy>=3.3.3",
@@ -136,6 +136,7 @@ known_first_party = ["app", "scripts"]
 
 [tool.deptry.per_rule_ignores]
 DEP002 = [
+  "alembic",
   "faker",
   "factory-boy",
   "mutmut",
