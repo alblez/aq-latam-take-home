@@ -1,0 +1,35 @@
+schema: spec-driven
+
+# Project context (shown to AI when creating artifacts)
+context: |
+  AI Interviewer Platform — a voice-driven interview app with a deterministic decision
+  panel, role question packs, and replay/analytics. Planned and tracked with OpenSpec.
+
+  Workflow: /opsx:propose → /opsx:apply → /opsx:sync → /opsx:archive
+  Source of truth: openspec/specs/ (accumulated after sync+archive)
+  Active changes: openspec/changes/<name>/ (proposal, design, tasks, delta specs)
+
+  Stack:
+  - Backend: Python 3.12, FastAPI, SQLAlchemy + Alembic, PostgreSQL, OpenRouter LLM
+    Gates: ruff, pyright, pytest, deptry, sqlfluff
+  - Frontend: Next.js 16, React 19, TypeScript (strict), Tailwind v4, Radix/shadcn
+    Gates: tsc, Biome, knip, Vitest, openapi-typescript codegen + drift check
+  - Contract: shared/contract.yaml (OpenAPI 3.1.0), committed with a drift check
+    Backend runtime OpenAPI must match the committed contract.
+    Frontend types generated via openapi-typescript, drift checked.
+  - Repo: justfile (task runner), lefthook (git hooks), gitleaks (secrets), redocly (contract lint)
+
+  Conventions:
+  - Conventional commits, one line: type(scope): subject. No AI co-author trailers.
+  - just bootstrap-check is the day-zero gate. just quality / just preflight are full gates.
+  - Backend-first: the backend emits the contract; the frontend builds against generated types.
+  - X-Owner-Id header (UUID) scopes all /api endpoints. No auth system.
+  - Structured error envelope: { error: { code, message, details?, requestId? } }
+  - No mock mode: the frontend requires a live backend (NEXT_PUBLIC_API_URL).
+
+# Per-artifact rules (optional)
+# rules:
+#   proposal:
+#     - Keep proposals under 500 words
+#   tasks:
+#     - Break tasks into chunks of max 2 hours
