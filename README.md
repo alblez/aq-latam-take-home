@@ -7,6 +7,17 @@ A candidate picks a role and completes a voice-driven interview that asks role-g
 questions and follow-ups based on what they say, then receives a full transcript and a
 structured evaluation (strengths, concerns, overall score).
 
+## Live demo
+
+- **Frontend:** https://aq-latam-take-home-nu.vercel.app
+- **Backend API:** https://ai-interviewer-backend-production-2100.up.railway.app
+- **API docs:** https://ai-interviewer-backend-production-2100.up.railway.app/docs
+- **GitHub:** https://github.com/alblez/aq-latam-take-home
+
+The frontend runs on Vercel, the backend on Railway, and the database is managed
+PostgreSQL. On free-tier hosting the first request after idle may be slow while the
+backend wakes.
+
 The work is planned with **[OpenSpec](https://github.com/Fission-AI/OpenSpec)**: a small
 set of change proposals in [`openspec/`](openspec/), each mapped to the brief's
 requirements. See [AGENTS.md](AGENTS.md) for how the project is built.
