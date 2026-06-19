@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Stabilized OpenAPI contract sourced from the backend
-The frontend↔backend interface SHALL be a single OpenAPI 3.1 document at `shared/contract.yaml`, produced from the backend's runtime OpenAPI and then stabilized as the authoritative interface. The backend's runtime OpenAPI MUST match the committed contract at all times, and once stabilized the contract MUST only change through an OpenSpec change that modifies the `api-contract` capability.
+The frontend↔backend interface SHALL be a single OpenAPI 3.1 document at `shared/contract.yaml`, committed as the authoritative interface with a drift check asserting the backend's runtime OpenAPI matches it at all times. Once stabilized, the contract MUST only change through an OpenSpec change that modifies the `api-contract` capability.
 
 #### Scenario: Contract matches the running backend
 - **WHEN** the contract is stabilized from the backend's runtime OpenAPI

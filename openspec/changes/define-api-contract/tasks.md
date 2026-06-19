@@ -1,11 +1,23 @@
-## 1. Stabilize the emitted contract
+## 1. Frontend project scaffold for contract codegen
 
-- [ ] 1.1 Review `shared/contract.yaml` emitted by `implement-backend`; stabilize the schema names and required fields the frontend depends on
-- [ ] 1.2 Document the invariants: `X-Owner-Id` scoping, the structured error envelope, and the stable `error.code` values
-- [ ] 1.3 Document the contract change/versioning rule (edits go through a new OpenSpec change; backend regenerates the contract)
+- [ ] 1.1 `frontend/package.json` with `openapi-typescript` devDependency, `contract-types` and `contract-types:check` scripts, project metadata (`ai-interviewer-frontend`)
+- [ ] 1.2 `frontend/tsconfig.json` (strict mode, `@/*` path alias, includes `**/*.ts`)
+- [ ] 1.3 `frontend/biome.json` excluding `types/api/` from linting
 
-## 2. Frontend codegen and drift checks
+## 2. Generate and commit frontend contract types
 
-- [ ] 2.1 Generate `frontend/types/api/contract.ts` via `openapi-typescript`
-- [ ] 2.2 Add `contract-types:check` to the frontend quality gate
-- [ ] 2.3 Confirm the backend's runtime OpenAPI still matches the committed `shared/contract.yaml`
+- [ ] 2.1 Generate `frontend/types/api/contract.ts` via `openapi-typescript` from `shared/contract.yaml`
+- [ ] 2.2 Add `frontend/scripts/check-contract-types.mjs` drift gate (regenerate to temp, diff against committed)
+- [ ] 2.3 Verify `just frontend-contract-types-check` passes (committed types match contract)
+
+## 3. Document contract invariants
+
+- [ ] 3.1 Document the `X-Owner-Id` owner-scoping rule and the structured error envelope with stable `error.code` values
+- [ ] 3.2 Document the contract change/versioning rule (edits go through a new OpenSpec change; backend drift check keeps runtime aligned)
+
+## 4. Verify drift checks
+
+- [ ] 4.1 Confirm `just backend-contract-drift` passes (runtime OpenAPI == committed contract)
+- [ ] 4.2 Confirm `just frontend-contract-types-check` passes (generated types == committed types)
+- [ ] 4.3 Confirm `just contract-check` passes (redocly lint)
+- [ ] 4.4 Confirm `just bootstrap-check` and `openspec validate --all` pass

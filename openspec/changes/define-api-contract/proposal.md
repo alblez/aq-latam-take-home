@@ -1,6 +1,6 @@
 ## Why
 
-`implement-backend` emits `shared/contract.yaml` from FastAPI's runtime OpenAPI. This change turns that emitted document into a stable, agreed interface the frontend can build against: it reviews and stabilizes the contract, documents its invariants, generates the frontend client types, and wires the drift checks that keep both sides in sync.
+`implement-backend` commits `shared/contract.yaml` with a drift check against the runtime OpenAPI. This change turns that committed document into a stable, agreed interface the frontend can build against: it reviews and stabilizes the contract, documents its invariants, generates the frontend client types, and wires the drift checks that keep both sides in sync.
 
 ## What Changes
 

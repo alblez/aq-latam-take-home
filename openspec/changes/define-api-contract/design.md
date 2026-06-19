@@ -15,7 +15,7 @@ The backend produces `shared/contract.yaml` from its runtime OpenAPI. That docum
 
 ## Decisions
 
-- **Source of the contract is the backend runtime OpenAPI.** A single generator (FastAPI) produces the document, so the contract cannot silently diverge from the implementation. This change reviews the emitted file and stabilizes schema names and field optionality the frontend relies on. *Alternative considered:* hand-authoring the contract ahead of the code — not chosen, because a hand-authored document drifts from the implementation and needs constant reconciliation.
+- **The contract is committed to the repository.** A drift check asserts the backend's runtime OpenAPI matches the committed contract, so code and contract cannot silently diverge. This change reviews the committed file and stabilizes schema names and field optionality the frontend relies on. *Alternative considered:* auto-emitting the contract from the runtime on every build — not chosen, because a committed document is reviewable and stable across builds.
 - **Owner-scoping invariant.** Every `/api` endpoint requires an `X-Owner-Id` UUID header and scopes data to that owner. Anonymous and browser-local; satisfies "save my sessions" without an account system. Spoofable, not security-grade — acceptable for this scope and noted as a limitation.
 - **Structured error envelope.** All errors use `{ error: { code, message, details?, requestId? } }` with a closed `code` enum, so clients branch on `code` rather than HTTP status alone.
 - **Change / versioning rule.** Once stabilized, the contract changes only through a new OpenSpec change; the drift check keeps the backend runtime OpenAPI and the committed contract identical at all times.
