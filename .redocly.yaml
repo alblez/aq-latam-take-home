@@ -1,0 +1,9 @@
+extends:
+  - recommended
+
+apis:
+  main:
+    root: shared/contract.yaml
+
+rules:
+  no-unused-components: warn

@@ -1,0 +1,13 @@
+title = "AI Interviewer Platform — secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Committed empty env examples"
+paths = ['''(^|/)\.env\.example$''']
+
+[[allowlists]]
+description = "Documented placeholder values and test fixtures"
+paths = ['''(^|/)tests/''', '''(^|/)docs/''']
+stopwords = ["example", "placeholder", "dummy", "test"]

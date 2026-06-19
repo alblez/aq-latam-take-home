@@ -1,0 +1,29 @@
+# Git hooks. Per-track commands are glob-gated, so they no-op until the
+# corresponding track is implemented and code lands under frontend/ or backend/.
+pre-commit:
+  parallel: true
+  commands:
+    secrets:
+      run: gitleaks protect --staged --verbose
+    frontend-biome:
+      glob: "frontend/**/*.{ts,tsx,js,jsx,json,css}"
+      run: pnpm --dir frontend exec biome check --write --staged --no-errors-on-unmatched
+      stage_fixed: true
+    backend-ruff:
+      root: "backend/"
+      glob: "backend/**/*.py"
+      run: uv run ruff check --fix --force-exclude {staged_files} && uv run ruff format --force-exclude {staged_files}
+      stage_fixed: true
+    frontend-test:
+      glob: "frontend/**/*.{ts,tsx}"
+      run: pnpm --dir frontend test
+    contract-types-drift:
+      glob: "{shared/contract.yaml,frontend/types/api/contract.ts}"
+      run: pnpm --dir frontend contract-types:check
+
+pre-push:
+  parallel: false
+  commands:
+    backend-quality:
+      glob: "backend/**/*.py"
+      run: just backend-quality
