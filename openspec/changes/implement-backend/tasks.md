@@ -11,10 +11,10 @@
 
 ## 2. API schemas and data access
 
-- [ ] 2.1 Pydantic API request/response schemas (`app/schemas.py`)
-- [ ] 2.2 Strict Pydantic models for JSONB columns (`app/jsonb_schemas.py`): TurnReasoning, TerminalPanelState, EvaluationNarrative, CompetencyEvidence, ControllerConfig
-- [ ] 2.3 Database repositories and query helpers (`app/repositories.py`): CRUD, owner guards, row locks
-- [ ] 2.4 Session lifecycle helpers: turn flow orchestration (`app/turn_flow.py`), panel state builders (`app/panel_state.py`), evaluation detail assembly (`app/evaluation_detail.py`), history detail assembly (`app/history_detail.py`)
+- [x] 2.1 Pydantic API request/response schemas (`app/schemas.py`)
+- [x] 2.2 Strict Pydantic models for JSONB columns (`app/jsonb_schemas.py`): TurnReasoning, TerminalPanelState, EvaluationNarrative, CompetencyEvidence, ControllerConfig
+- [x] 2.3 Database repositories and query helpers (`app/repositories.py`): CRUD, owner guards, row locks
+- [x] 2.4 Session lifecycle helpers: turn flow orchestration (`app/turn_flow.py`), panel state builders (`app/panel_state.py`), evaluation detail assembly (`app/evaluation_detail.py`), history detail assembly (`app/history_detail.py`)
 
 ## 3. Deterministic interview engine
 
