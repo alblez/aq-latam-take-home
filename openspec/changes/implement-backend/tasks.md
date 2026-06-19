@@ -18,14 +18,14 @@
 
 ## 3. Deterministic interview engine
 
-- [ ] 3.1 Engine package scaffold and OpenRouter gateway (`app/engine/gateway.py`): ModelGateway protocol, OpenRouterGateway, retry logic
-- [ ] 3.2 Prompt builders (`app/engine/prompts.py`): analyze, generate, evaluation, repair prompts
-- [ ] 3.3 Answer analysis and signal extraction (`app/engine/analyze.py`)
-- [ ] 3.4 Deterministic depth policy (`app/engine/policy.py`): pure function, min 6 questions, min 2 follow-ups, caps, eligibleToEnd, follow-up guard
-- [ ] 3.5 Question generation with tiered fallback (`app/engine/generate.py`): pack_seed, targeted_follow_up, generic_probe
-- [ ] 3.6 Structured evaluation (`app/engine/evaluation.py`): schema, parsing, competency alignment, deterministic scoring
-- [ ] 3.7 Pipeline orchestrator (`app/engine/orchestrator.py`): analyze → policy → generate → persist; evaluation runner; end-early terminal builder
-- [ ] 3.8 Rationale templates and failure-mode vocabulary (`app/engine/rationales.py`)
+- [x] 3.1 Engine package scaffold and OpenRouter gateway (`app/engine/gateway.py`): ModelGateway protocol, OpenRouterGateway, retry logic
+- [x] 3.2 Prompt builders (`app/engine/prompts.py`): analyze, generate, evaluation, repair prompts
+- [x] 3.3 Answer analysis and signal extraction (`app/engine/analyze.py`)
+- [x] 3.4 Deterministic depth policy (`app/engine/policy.py`): pure function, min 6 questions, min 2 follow-ups, caps, eligibleToEnd, follow-up guard
+- [x] 3.5 Question generation with tiered fallback (`app/engine/generate.py`): pack_seed, targeted_follow_up, generic_probe
+- [x] 3.6 Structured evaluation (`app/engine/evaluation.py`): schema, parsing, competency alignment, deterministic scoring
+- [x] 3.7 Pipeline orchestrator (`app/engine/orchestrator.py`): analyze → policy → generate → persist; evaluation runner; end-early terminal builder
+- [x] 3.8 Rationale templates and failure-mode vocabulary (`app/engine/rationales.py`)
 
 ## 4. API routes
 
