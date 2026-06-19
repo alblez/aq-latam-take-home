@@ -1,8 +1,8 @@
 ## 1. Frontend project scaffold for contract codegen
 
-- [ ] 1.1 `frontend/package.json` with `openapi-typescript` devDependency, `contract-types` and `contract-types:check` scripts, project metadata (`ai-interviewer-frontend`)
-- [ ] 1.2 `frontend/tsconfig.json` (strict mode, `@/*` path alias, includes `**/*.ts`)
-- [ ] 1.3 `frontend/biome.json` excluding `types/api/` from linting
+- [x] 1.1 `frontend/package.json` with `openapi-typescript` devDependency, `contract-types` and `contract-types:check` scripts, project metadata (`ai-interviewer-frontend`)
+- [x] 1.2 `frontend/tsconfig.json` (strict mode, `@/*` path alias, includes `**/*.ts`)
+- [x] 1.3 `frontend/biome.json` excluding `types/api/` from linting
 
 ## 2. Generate and commit frontend contract types
 
