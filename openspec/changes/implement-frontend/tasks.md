@@ -22,11 +22,11 @@
 
 ## 4. Components
 
-- [ ] 4.1 Shared components (`components/shared/empty-state.tsx`, `components/shared/error-state.tsx`, `components/retry-button.tsx`)
-- [ ] 4.2 Job selection components (`components/job-card.tsx`, `components/job-list-states.tsx`)
-- [ ] 4.3 Interview room components (`components/interview/` — interview-room, decision-panel, answer-area, competency-chips, done-button, early-end-dialog, interview-header, question-display, speaking-orb, thinking-indicator, welcome-screen)
-- [ ] 4.4 Results components (`components/results/` — competency-score-card, evaluation-limitations, narrative-section, score-bar, transcript-turn)
-- [ ] 4.5 History components (`components/history/` — empty-history, role-filter, score-trend-chart, session-card, turn-navigator)
+- [x] 4.1 Shared components (`components/shared/empty-state.tsx`, `components/shared/error-state.tsx`, `components/retry-button.tsx`)
+- [x] 4.2 Job selection components (`components/job-card.tsx`, `components/job-list-states.tsx`)
+- [x] 4.3 Interview room components (`components/interview/` — interview-room, decision-panel, answer-area, competency-chips, done-button, early-end-dialog, interview-header, question-display, speaking-orb, thinking-indicator, welcome-screen)
+- [x] 4.4 Results components (`components/results/` — competency-score-card, evaluation-limitations, narrative-section, score-bar, transcript-turn)
+- [x] 4.5 History components (`components/history/` — empty-history, role-filter, score-trend-chart, session-card, turn-navigator)
 
 ## 5. App routes
 
