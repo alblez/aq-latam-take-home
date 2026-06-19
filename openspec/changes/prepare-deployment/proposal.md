@@ -6,7 +6,7 @@ The brief requires the app to work end-to-end in a hosted environment, deployed 
 
 - Deploy the frontend and backend to managed hosting with a managed PostgreSQL database, reachable over HTTPS.
 - Run database migrations and the idempotent seed on backend release.
-- Configure production environment: `NEXT_PUBLIC_USE_MOCK=false`, `NEXT_PUBLIC_API_URL` / `API_URL` pointing at the deployed backend, backend `CORS_ALLOWED_ORIGINS` allowing the frontend origin, plus `DATABASE_URL` and `OPENROUTER_*`.
+- Configure production environment: `NEXT_PUBLIC_API_URL` / `API_URL` pointing at the deployed backend, backend `CORS_ALLOWED_ORIGINS` allowing the frontend origin, plus `DATABASE_URL` and `OPENROUTER_*`.
 - Publish the repository publicly with a working public URL.
 
 ## Capabilities

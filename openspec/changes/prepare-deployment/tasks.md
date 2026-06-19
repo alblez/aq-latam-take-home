@@ -2,7 +2,7 @@
 
 - [ ] 1.1 Provision a managed PostgreSQL database
 - [ ] 1.2 Configure the backend host: env vars, a release step that runs `alembic upgrade head` + seed, and a `/health` check
-- [ ] 1.3 Configure the frontend host: `NEXT_PUBLIC_USE_MOCK=false` and API URLs pointing at the deployed backend
+- [ ] 1.3 Configure the frontend host: `NEXT_PUBLIC_API_URL` and `API_URL` pointing at the deployed backend
 
 ## 2. Deploy the thin slice first
 

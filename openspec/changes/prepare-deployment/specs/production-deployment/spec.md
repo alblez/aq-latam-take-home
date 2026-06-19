@@ -16,4 +16,4 @@ A production deployment SHALL run database migrations and the idempotent seed be
 
 #### Scenario: Frontend targets the hosted backend
 - **WHEN** the frontend is deployed for production
-- **THEN** `NEXT_PUBLIC_USE_MOCK` is `false`, `NEXT_PUBLIC_API_URL` / `API_URL` target the hosted backend, and backend `CORS_ALLOWED_ORIGINS` permits the frontend origin
+- **THEN** `NEXT_PUBLIC_API_URL` / `API_URL` target the hosted backend, and backend `CORS_ALLOWED_ORIGINS` permits the frontend origin
