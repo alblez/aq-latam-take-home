@@ -1,0 +1,2 @@
+# Python build artifacts not covered by the repository-root .gitignore.
+*.egg-info/

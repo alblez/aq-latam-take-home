@@ -1,13 +1,13 @@
 ## 1. Project scaffold and persistence
 
-- [ ] 1.1 Backend project metadata and tooling: `pyproject.toml` (uv-managed, `ai-interviewer-backend`), ruff, pyright, pytest, coverage, deptry config
-- [ ] 1.2 FastAPI app skeleton: settings/env loading (`app/config.py`), SQLAlchemy engine (`app/db.py`), dependencies (`app/deps.py`), structured logging (`app/logging.py`), error envelope (`app/errors.py`), owner parsing (`app/owners.py`), app factory + middleware + exception handlers (`app/main.py`)
-- [ ] 1.3 `GET /health` endpoint (`app/routes/health.py`)
-- [ ] 1.4 Database schema DDL in `backend/docs/schema.sql` (jobs, competencies, question_pack_items, sessions, turns, evaluations, session_competency_scores + enums + indexes)
-- [ ] 1.5 SQLAlchemy models in `backend/app/models.py` matching the schema
-- [ ] 1.6 Alembic migration `backend/alembic/versions/0001_initial_schema.py` + companion SQL, `alembic.ini`, `alembic/env.py`
-- [ ] 1.7 Idempotent seed data (`backend/seed_data.sql`) and runner (`backend/scripts/seed.py`)
-- [ ] 1.8 Verify `just backend-db-setup` (alembic upgrade head + seed) runs clean
+- [x] 1.1 Backend project metadata and tooling: `pyproject.toml` (uv-managed, `ai-interviewer-backend`), ruff, pyright, pytest, coverage, deptry config
+- [x] 1.2 FastAPI app skeleton: settings/env loading (`app/config.py`), SQLAlchemy engine (`app/db.py`), dependencies (`app/deps.py`), structured logging (`app/logging.py`), error envelope (`app/errors.py`), owner parsing (`app/owners.py`), app factory + middleware + exception handlers (`app/main.py`)
+- [x] 1.3 `GET /health` endpoint (`app/routes/health.py`)
+- [x] 1.4 Database schema DDL in `backend/docs/schema.sql` (jobs, competencies, question_pack_items, sessions, turns, evaluations, session_competency_scores + enums + indexes)
+- [x] 1.5 SQLAlchemy models in `backend/app/models.py` matching the schema
+- [x] 1.6 Alembic migration `backend/alembic/versions/0001_initial_schema.py` + companion SQL, `alembic.ini`, `alembic/env.py`
+- [x] 1.7 Idempotent seed data (`backend/seed_data.sql`) and runner (`backend/scripts/seed.py`)
+- [x] 1.8 Verify `just backend-db-setup` (alembic upgrade head + seed) runs clean
 
 ## 2. API schemas and data access
 

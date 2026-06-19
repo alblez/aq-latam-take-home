@@ -1,0 +1,4 @@
+Alembic migrations for the FastAPI backend.
+
+Run explicitly with `just backend-db-smoke` or `cd backend && uv run alembic upgrade head`.
+Do not run migrations from app startup.
