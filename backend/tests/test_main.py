@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 from httpx2 import AsyncClient
 
@@ -38,10 +40,13 @@ async def test_lifespan_wires_app_state() -> None:
 
 
 @pytest.mark.asyncio
-async def test_lifespan_exits_on_missing_env(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_lifespan_exits_on_missing_env(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
     monkeypatch.delenv("DATABASE_URL", raising=False)
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     monkeypatch.delenv("OPENROUTER_LLM_MODEL", raising=False)
+    monkeypatch.chdir(tmp_path)
     with pytest.raises(SystemExit):
         async with lifespan(app):
             pass
