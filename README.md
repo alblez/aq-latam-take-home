@@ -18,6 +18,16 @@ The frontend runs on Vercel, the backend on Railway, and the database is managed
 PostgreSQL. On free-tier hosting the first request after idle may be slow while the
 backend wakes.
 
+## Browser support
+
+Speech-to-text input uses the browser's native Web Speech API
+(`SpeechRecognition` / `webkitSpeechRecognition`). The voice experience is developed
+and tested primarily in **Chrome**, with **Safari** supported where native speech
+recognition is available. Firefox and Brave do not currently provide reliable native
+speech-recognition support for this flow, so the app falls back to typed answers in
+those browsers. The interview remains fully functional without voice, and the welcome
+screen shows a compatibility note before the interview starts.
+
 The work is planned with **[OpenSpec](https://github.com/Fission-AI/OpenSpec)**: a small
 set of change proposals in [`openspec/`](openspec/), each mapped to the brief's
 requirements. See [AGENTS.md](AGENTS.md) for how the project is built.
