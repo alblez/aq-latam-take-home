@@ -58,3 +58,6 @@ frontend/.impeccable
 # optional untracked local opencode overrides (e.g. private reference paths)
 opencode.local.json
 opencode.local.jsonc
+
+# graphify
+graphify-out/
